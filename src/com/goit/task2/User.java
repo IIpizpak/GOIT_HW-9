@@ -7,10 +7,10 @@ package com.goit.task2;
  */
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class User implements Serializable {
@@ -41,16 +41,22 @@ public class User implements Serializable {
                 '}';
     }
 
-    public ArrayList<String> txtToObject(String filepath) throws IOException {
+    public List<User> txtToObjectList(String filepath) throws IOException {
         File file = new File(filepath);
-        FileInputStream inputStream = new FileInputStream(file);
-        Scanner scanner = new Scanner(inputStream);
-        ArrayList<String> userList = new ArrayList<>();
-        while (scanner.hasNextLine()) {
-            userList.add(scanner.nextLine());
+        List<User> users = new ArrayList<>();
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String[] str = scanner.nextLine().split(" ");
+                if (str[1].matches("[0-9]+")) {
+                    User user = new User();
+                    user.setName(str[0]);
+                    user.setAge(Integer.parseInt(str[1]));
+                    users.add(user);
+                }
+            }
         }
-        scanner.close();
-        System.out.println(userList.toString());
-        return userList;
+
+        System.out.println("List of users from method txtToObjectList " + users.toString());
+        return users;
     }
 }
