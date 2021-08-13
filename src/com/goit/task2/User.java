@@ -17,6 +17,8 @@ public class User implements Serializable {
     private String name;
     private Integer age;
 
+    List<User> users = new ArrayList<>();
+
     public String getName() {
         return name;
     }
@@ -43,7 +45,6 @@ public class User implements Serializable {
 
     public List<User> txtToObjectList(String filepath) throws IOException {
         File file = new File(filepath);
-        List<User> users = new ArrayList<>();
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
                 String[] str = scanner.nextLine().split(" ");
