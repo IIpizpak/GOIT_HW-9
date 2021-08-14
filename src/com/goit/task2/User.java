@@ -6,9 +6,10 @@ package com.goit.task2;
 Предполагаем, что каждая строка содержит одинаковое количество "колонок", разделенный пробелом.
  */
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,6 +17,8 @@ import java.util.Scanner;
 public class User implements Serializable {
     private String name;
     private Integer age;
+
+
 
     List<User> users = new ArrayList<>();
 
@@ -43,7 +46,7 @@ public class User implements Serializable {
                 '}';
     }
 
-    public List<User> txtToObjectList(String filepath) throws IOException {
+    public List<User> txtToJson(String filepath) throws IOException {
         File file = new File(filepath);
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
@@ -57,7 +60,13 @@ public class User implements Serializable {
             }
         }
 
-        System.out.println("List of users from method txtToObjectList " + users.toString());
+        System.out.println("List of users from method txtToJson " + users.toString());
+        String json = new Gson().toJson(users);
+        try (FileWriter fileWriter = new FileWriter("C:\\workspace\\GOIT_HW-9\\src\\com\\goit\\task2\\users.json")){
+            fileWriter.write(json);
+            fileWriter.flush();
+        };
+        System.out.println(json);
         return users;
     }
 }
