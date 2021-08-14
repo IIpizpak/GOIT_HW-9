@@ -6,14 +6,9 @@ import java.util.*;
 
 public class WordsCounter {
 
-    public static void main(String[] args) {
-        WordsCounter test = new WordsCounter();
-        test.wordCounter("C:\\workspace\\GOIT_HW-9\\src\\com\\goit\\task3\\words.txt");
-    }
-
     Map<String, Integer> wordsCount = new HashMap<>();
     List<String> words = new ArrayList<>();
-
+    List<String> keys = new ArrayList<>();
 
     public void wordCounter(String filepath) {
         try (Scanner scanner = new Scanner(new File(filepath))) {
@@ -30,6 +25,9 @@ public class WordsCounter {
                 wordsCount.put(word, 1);
             }
         }
-        System.out.println(wordsCount.toString());
+        keys.addAll(wordsCount.keySet());
+        for (String key : keys) {
+            System.out.println(key + " " + wordsCount.get(key));
+        }
     }
 }
