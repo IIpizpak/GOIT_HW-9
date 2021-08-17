@@ -14,13 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class User implements Serializable {
+public class User {
     private String name;
     private Integer age;
 
-
-
-    List<User> users = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -46,7 +43,8 @@ public class User implements Serializable {
                 '}';
     }
 
-    public List<User> txtToJson(String filepath) throws IOException {
+    public void txtToJson(String filepath) throws IOException {
+        List<User> users = new ArrayList<>();
         File file = new File(filepath);
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
@@ -60,13 +58,13 @@ public class User implements Serializable {
             }
         }
 
-        System.out.println("List of users from method txtToJson " + users.toString());
-        String json = new Gson().toJson(users);
-        try (FileWriter fileWriter = new FileWriter("C:\\workspace\\GOIT_HW-9\\src\\com\\goit\\task2\\users.json")){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        File file1 = new File("C:\\workspace\\GOIT_HW-9\\src\\com\\goit\\task2\\users.txt");
+        String json = gson.toJson(users);
+
+        try (FileWriter fileWriter = new FileWriter(file1)) {
             fileWriter.write(json);
-            fileWriter.flush();
-        };
-        System.out.println(json);
-        return users;
+        }
     }
 }
+
